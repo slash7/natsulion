@@ -60,8 +60,8 @@
     [style setLineSpacing:-2.0];
 //    [style setMinimumLineHeight:4];
     return [NSDictionary dictionaryWithObjectsAndKeys:
-//            [NSFont fontWithName:@"HiraMaruPro-W4" size:[[NTLNConfiguration instance] fontSize]], NSFontAttributeName,
-            [NSFont userFontOfSize:[[NTLNConfiguration instance] fontSize]], NSFontAttributeName,
+            [NSFont fontWithName:@"HiraMaruPro-W4" size:[[NTLNConfiguration instance] fontSize]], NSFontAttributeName,
+//            [NSFont userFontOfSize:[[NTLNConfiguration instance] fontSize]], NSFontAttributeName,
             style, NSParagraphStyleAttributeName,
             nil];
 

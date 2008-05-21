@@ -12,7 +12,7 @@
     if ([[status screenName] isEqualToString:[status name]]) {
         [self setStringValue:[status screenName]];
     } else {
-        [self setStringValue:[[[status screenName] stringByAppendingString:@"/"] stringByAppendingString:[status name]]];
+        [self setStringValue:[[[status screenName] stringByAppendingString:@" / "] stringByAppendingString:[status name]]];
     }
 }
 

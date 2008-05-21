@@ -10,10 +10,24 @@
 
 - (void) setupColors {
     [_backgroundColor release];
-    _backgroundColor = [[[NTLNColors instance] colorForBackground] retain];
+    _backgroundColor = [[[NTLNColors instance] colorForInputTextBackground] retain];
     [self setBackgroundColor:_backgroundColor];
-    [self setTextColor:[[NTLNColors instance] colorForText]];
+	[_textColor release];
+	_textColor = [[[NTLNColors instance] colorForInputText] retain];
+    [self setTextColor:_textColor];
     [(NSTextView*)[[self window] fieldEditor:TRUE forObject:self] setInsertionPointColor:[[NTLNColors instance] colorForText]];
+
+
+
+	NSDictionary *dic1 = 
+	[NSDictionary dictionaryWithObjectsAndKeys:
+	[NSColor brownColor], @"NSBackgroundColor" ,
+	nil ];
+    [(NSTextView*)[[self window] fieldEditor:TRUE forObject:self] setMarkedTextAttributes:dic1];
+
+//	[self setMarkedTextAttributes:dic1];
+
+
 }
 
 - (void) setupFontSize {
@@ -62,6 +76,7 @@
 
 - (void) dealloc  {
     [_backgroundColor release];
+	[_textColor release];
     [super dealloc];
 }
 

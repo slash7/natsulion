@@ -45,11 +45,12 @@
 }
 
 - (void) fontSizeChanged {
-    float size = [[NTLNConfiguration instance] fontSize];
+/*    float size = [[NTLNConfiguration instance] fontSize];
     if (size > [NSFont systemFontSize]) {
         size = [NSFont systemFontSize];
     }
     [self setFont:[NSFont userFontOfSize:size]];
+*/
 }
 
 @end

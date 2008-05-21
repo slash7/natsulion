@@ -19,6 +19,10 @@
     NSColor *_colorForBackground;
     NSColor *_colorForWarning;
     NSColor *_colorForError;
+	
+	NSColor *_colorForInputText;
+	NSColor *_colorForInputTextBackground;
+	
     NSArray *_controlAlternatingRowBackgroundColors;
 }
 + (id) instance;
@@ -30,6 +34,7 @@
 - (NSColor*) colorForHighlightedText;
 - (NSColor*) colorForSubText;
 - (NSColor*) colorForSubText2;
+- (NSColor*) colorForInputText;
 
 #pragma mark Background Color
 - (NSColor*) colorForReply;
@@ -40,6 +45,7 @@
 - (NSColor*) colorForBackground;
 - (NSColor*) colorForWarning;
 - (NSColor*) colorForError;
+- (NSColor*) colorForInputTextBackground;
 
 - (NSArray*) controlAlternatingRowBackgroundColors;
 @end

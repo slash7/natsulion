@@ -26,6 +26,10 @@ static NTLNColors *_instance;
     [_colorForHighlightedBackground release];
     [_colorForBackground release];
     [_controlAlternatingRowBackgroundColors release];
+	
+	[_colorForInputText release];
+	[_colorForInputTextBackground release];
+	
 }
 
 - (void) setupLightColors {
@@ -48,6 +52,9 @@ static NTLNColors *_instance;
     _colorForWarning = [[NSColor colorWithDeviceHue:0.1167 saturation:0.3 brightness:1.0 alpha:alpha] retain];
     _colorForError = [[NSColor colorWithDeviceHue:0 saturation:0.3 brightness:1 alpha:alpha] retain];
     
+	_colorForInputText = [[NSColor controlTextColor] retain];
+	_colorForInputTextBackground = [[NSColor controlBackgroundColor] retain];
+	
     NSMutableArray *alternatingColors = [[[NSMutableArray alloc] initWithCapacity:2] retain];
     for (NSColor *c in [NSColor controlAlternatingRowBackgroundColors]) {
         [alternatingColors addObject:[c colorWithAlphaComponent:alpha]];
@@ -75,6 +82,9 @@ static NTLNColors *_instance;
     _colorForWarning = [[NSColor colorWithDeviceHue:0.1167 saturation:0.55 brightness:0.5 alpha:alpha] retain];
     _colorForError = [[NSColor colorWithDeviceHue:0 saturation:0.55 brightness:0.5 alpha:alpha] retain];
     
+	_colorForInputText = [[NSColor whiteColor] retain];
+	_colorForInputTextBackground = [[NSColor blackColor] retain];
+	
     _controlAlternatingRowBackgroundColors = [[[NSArray alloc] initWithObjects:
                                               [[NSColor blackColor] colorWithAlphaComponent:alpha],
                                               [[[NSColor blackColor] highlightWithLevel:0.05] colorWithAlphaComponent:alpha],
@@ -163,5 +173,14 @@ static NTLNColors *_instance;
 - (NSArray*) controlAlternatingRowBackgroundColors {
     return _controlAlternatingRowBackgroundColors;
 }
+
+- (NSColor*) colorForInputText {
+	return _colorForInputText;
+}
+
+- (NSColor*) colorForInputTextBackground {
+	return _colorForInputTextBackground;
+}
+
 
 @end
