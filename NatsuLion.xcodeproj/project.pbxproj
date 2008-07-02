@@ -85,6 +85,7 @@
 		E9F1DB480D13EE910072CE81 /* TwitterStatusView.nib in Resources */ = {isa = PBXBuildFile; fileRef = E9F1DB470D13EE910072CE81 /* TwitterStatusView.nib */; };
 		E9F960930D25D03A007829C4 /* NTLNMessageInputTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F960920D25D03A007829C4 /* NTLNMessageInputTextField.m */; };
 		E9FE91670D81527C0012136E /* NTLNBufferedMessageNotifier.m in Sources */ = {isa = PBXBuildFile; fileRef = E9FE91660D81527C0012136E /* NTLNBufferedMessageNotifier.m */; };
+		F1CE9CA20E1BFD110067C9A2 /* W3CDTF.m in Sources */ = {isa = PBXBuildFile; fileRef = F1CE9CA00E1BFD110067C9A2 /* W3CDTF.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -239,6 +240,8 @@
 		E9F960920D25D03A007829C4 /* NTLNMessageInputTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NTLNMessageInputTextField.m; sourceTree = "<group>"; };
 		E9FE91650D81527C0012136E /* NTLNBufferedMessageNotifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTLNBufferedMessageNotifier.h; sourceTree = "<group>"; };
 		E9FE91660D81527C0012136E /* NTLNBufferedMessageNotifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NTLNBufferedMessageNotifier.m; sourceTree = "<group>"; };
+		F1CE9CA00E1BFD110067C9A2 /* W3CDTF.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = W3CDTF.m; sourceTree = "<group>"; };
+		F1CE9CA10E1BFD110067C9A2 /* W3CDTF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = W3CDTF.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -456,6 +459,8 @@
 				E9E5BF9E0D28988800F34B9B /* NTLNXMLHTTPEncoder.m */,
 				E93467010D32DF6400F779CB /* NTLNUIUtils.h */,
 				E93467020D32DF6400F779CB /* NTLNUIUtils.m */,
+				F1CE9CA00E1BFD110067C9A2 /* W3CDTF.m */,
+				F1CE9CA10E1BFD110067C9A2 /* W3CDTF.h */,
 			);
 			path = util;
 			sourceTree = "<group>";
@@ -674,6 +679,7 @@
 				E976152B0D9FDE10007893CC /* Crypto.m in Sources */,
 				E94CC0D10DD8C8B100D8711D /* NTLNKeywordFilterView.m in Sources */,
 				E99408070DEF43FD0009A365 /* NTLNSegmentedCell.m in Sources */,
+				F1CE9CA20E1BFD110067C9A2 /* W3CDTF.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

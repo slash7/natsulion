@@ -1,6 +1,7 @@
 #import "Twitter.h"
 #import "NTLNConfiguration.h"
 #import "NTLNXMLHTTPEncoder.h"
+#import "W3CDTF.h"
 
 @implementation NTLNErrorInfo
 + (id) infoWithType:(enum NTLNErrorType)type originalMessage:(NSString*)message {
@@ -155,7 +156,7 @@
         return;
     }
     
-    NSArray *statuses = [document nodesForXPath:@"/statuses/status" error:NULL];
+    NSArray *statuses = [document nodesForXPath:@"/rss/channel/item" error:NULL];
     if ([statuses count] == 0) {
         NSLog(@"status code: %d - response:%@", code, responseStr);
         [_callback failedToGetTimeline:[NTLNErrorInfo infoWithType:NTLN_ERROR_TYPE_OTHER 
@@ -165,17 +166,18 @@
     
     for (NSXMLNode *status in statuses) {
         NTLNMessage *backStatus = [[[NTLNMessage alloc] init] autorelease];
-        
-        [backStatus setStatusId:[self stringValueFromNSXMLNode:status byXPath:@"id/text()"]];
-        [backStatus setName:[[NTLNXMLHTTPEncoder encoder] decodeXML:[self stringValueFromNSXMLNode:status byXPath:@"user/name/text()"]]];
-        [backStatus setScreenName:[[NTLNXMLHTTPEncoder encoder] decodeXML:[self stringValueFromNSXMLNode:status byXPath:@"user/screen_name/text()"]]];
-        [backStatus setText:[[NTLNXMLHTTPEncoder encoder] decodeXML:[self stringValueFromNSXMLNode:status byXPath:@"text/text()"]]];
+
+        NSString *author = [[NTLNXMLHTTPEncoder encoder] decodeXML:[self stringValueFromNSXMLNode:status byXPath:@"author/text()"]];
+        [backStatus setStatusId:[self stringValueFromNSXMLNode:status byXPath:@"link/text()"]];
+        [backStatus setName:author];
+        [backStatus setScreenName:author];
+        [backStatus setText:[[NTLNXMLHTTPEncoder encoder] decodeXML:[self stringValueFromNSXMLNode:status byXPath:@"description/text()"]]];
         [backStatus setText:[self decodeHeart:[backStatus text]]];
         
-        NSString *timestampStr = [[NTLNXMLHTTPEncoder encoder] decodeXML:[self stringValueFromNSXMLNode:status byXPath:@"created_at/text()"]];
-        [backStatus setTimestamp:[NSDate dateWithNaturalLanguageString:timestampStr]];
+        NSString *timestampStr = [[NTLNXMLHTTPEncoder encoder] decodeXML:[self stringValueFromNSXMLNode:status byXPath:@"dcterms:modified/text()"]];
+        [backStatus setTimestamp:[W3CDTF dateFromString:timestampStr]];
         
-        NSString *iconUrl = [self convertToLargeIconUrl:[self stringValueFromNSXMLNode:status byXPath:@"user/profile_image_url/text()"]];
+        NSString *iconUrl = [[@"http://wassr.jp/user/" stringByAppendingString:author] stringByAppendingString:@"/profile_img.png.64"];
        
         [backStatus finishedToSetProperties];
         [_callback twitterStartTask];
@@ -319,13 +321,8 @@
     }
     
     TwitterTimelineCallbackHandler *handler = [[TwitterTimelineCallbackHandler alloc] initWithCallback:_callback parent:self];
-    
-	NSString *url_suffix = [[NSDate date] descriptionWithCalendarFormat:@"%Y%m%d%02H%02M%02S"
-															   timeZone:[NSTimeZone localTimeZone]
-																 locale:[[NSUserDefaults standardUserDefaults]
-																		 dictionaryRepresentation]];
-	
-	NSString *url = [@"http://twitter.com/statuses/friends_timeline.xml?" stringByAppendingString:url_suffix];
+
+	NSString *url = @"http://api.wassr.jp/statuses/friends_timeline.rss";// stringByAppendingString:url_suffix];
     [_connectionForFriendTimeline release];
     _connectionForFriendTimeline = [[NTLNAsyncUrlConnection alloc] initWithUrl:url
                                                                   username:username
@@ -341,7 +338,7 @@
 }
 
 - (void) repliesWithUsername:(NSString*)username password:(NSString*)password usePost:(BOOL)post {
-
+/*
     if (_connectionForReplies && ![_connectionForReplies isFinished]) {
         NSLog(@"connection for replies is running.");
         return;
@@ -350,7 +347,7 @@
     TwitterTimelineCallbackHandler *handler = [[TwitterTimelineCallbackHandler alloc] initWithCallback:_callback parent:self];
     
     [_connectionForReplies release];
-    _connectionForReplies = [[NTLNAsyncUrlConnection alloc] initWithUrl:@"http://twitter.com/statuses/replies.xml" 
+    _connectionForReplies = [[NTLNAsyncUrlConnection alloc] initWithUrl:@"http://api.wassr.jp/statuses/replies.xml" 
                                                                       username:username
                                                                       password:password
                                                                        usePost:post
@@ -360,11 +357,11 @@
         return;
     }
     
-    [_callback twitterStartTask];
+    [_callback twitterStartTask];*/
 }
 
 - (void) sentMessagesWithUsername:(NSString*)username password:(NSString*)password usePost:(BOOL)post {
-    
+/*    
     if (_connectionForSentMessages && ![_connectionForSentMessages isFinished]) {
         NSLog(@"connection for sent messages is running.");
         return;
@@ -373,7 +370,7 @@
     TwitterTimelineCallbackHandler *handler = [[TwitterTimelineCallbackHandler alloc] initWithCallback:_callback parent:self];
     
     [_connectionForSentMessages release];
-    _connectionForSentMessages = [[NTLNAsyncUrlConnection alloc] initWithUrl:@"http://twitter.com/statuses/user_timeline.xml" 
+    _connectionForSentMessages = [[NTLNAsyncUrlConnection alloc] initWithUrl:@"http://api.wassr.jp/statuses/user_timeline.xml" 
                                                                username:username
                                                                password:password
                                                                 usePost:post
@@ -383,7 +380,7 @@
         return;
     }
     
-    [_callback twitterStartTask];
+    [_callback twitterStartTask];*/
 }
 
 - (void) sendMessage:(NSString*)message username:(NSString*)username password:(NSString*)password {
@@ -398,7 +395,7 @@
     
     TwitterPostCallbackHandler *handler = [[TwitterPostCallbackHandler alloc] initWithPostCallback:_callback];
     [_connectionForPost release];
-    _connectionForPost = [[NTLNAsyncUrlConnection alloc] initPostConnectionWithUrl:@"http://twitter.com/statuses/update.xml"
+    _connectionForPost = [[NTLNAsyncUrlConnection alloc] initPostConnectionWithUrl:@"http://api.wassr.jp/statuses/update.json"
                                                                         bodyString:requestStr 
                                                                           username:username
                                                                           password:password
@@ -415,14 +412,14 @@
 }
 
 - (void) createFavorite:(NSString*)statusId username:(NSString*)username password:(NSString*)password {
-    
+/*    
     if (_connectionForFavorite && ![_connectionForFavorite isFinished]) {
         NSLog(@"connection for favorite is running.");
         return;
     }
     
     NSMutableString *urlStr = [[[NSMutableString alloc] init] autorelease];
-    [urlStr appendString:@"http://twitter.com/favourings/create/"];
+    [urlStr appendString:@"http://api.wassr.jp/favourings/create/"];
     [urlStr appendString:statusId];
     [urlStr appendString:@".xml"];
     
@@ -442,7 +439,7 @@
         return;
     }
     
-    [_callback twitterStartTask];
+    [_callback twitterStartTask];*/
 }
 
 #pragma mark icon callback
@@ -495,7 +492,7 @@
     _callback = callback;
     [_callback retain];
     
-    _connection = [[NTLNAsyncUrlConnection alloc] initWithUrl:@"http://twitter.com/account/verify_credentials.xml" 
+    _connection = [[NTLNAsyncUrlConnection alloc] initWithUrl:@"http://api.wassr.jp/statuses/friends_timeline.rss" 
                                                  username:username
                                                  password:password
                                                   usePost:FALSE

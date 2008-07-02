@@ -1,6 +1,6 @@
 #import "NTLNKeyChain.h"
 
-#define SERVER_NAME "twitter.com"
+#define SERVER_NAME "wasser.jp"
 #define SERVER_PORT 80
 
 @implementation NTLNKeyChain
