@@ -156,7 +156,7 @@
         return;
     }
     
-    NSArray *statuses = [document nodesForXPath:@"/rss/channel/item" error:NULL];
+    NSArray *statuses = [document nodesForXPath:@"/statuses/status" error:NULL];
     if ([statuses count] == 0) {
         NSLog(@"status code: %d - response:%@", code, responseStr);
         [_callback failedToGetTimeline:[NTLNErrorInfo infoWithType:NTLN_ERROR_TYPE_OTHER 
@@ -166,18 +166,18 @@
     
     for (NSXMLNode *status in statuses) {
         NTLNMessage *backStatus = [[[NTLNMessage alloc] init] autorelease];
-
-        NSString *author = [[NTLNXMLHTTPEncoder encoder] decodeXML:[self stringValueFromNSXMLNode:status byXPath:@"author/text()"]];
-        [backStatus setStatusId:[self stringValueFromNSXMLNode:status byXPath:@"link/text()"]];
-        [backStatus setName:author];
-        [backStatus setScreenName:author];
-        [backStatus setText:[[NTLNXMLHTTPEncoder encoder] decodeXML:[self stringValueFromNSXMLNode:status byXPath:@"description/text()"]]];
+		
+		NSString *epoch = [self stringValueFromNSXMLNode:status byXPath:@"epoch/text()"];
+		
+		NSString *user_login_id = [self stringValueFromNSXMLNode:status byXPath:@"user_login_id/text()"];
+        [backStatus setStatusId:epoch];
+        [backStatus setName:user_login_id];
+        [backStatus setScreenName:[[NTLNXMLHTTPEncoder encoder] decodeXML:[self stringValueFromNSXMLNode:status byXPath:@"user/screen_name/text()"]]];
+        [backStatus setText:[[NTLNXMLHTTPEncoder encoder] decodeXML:[self stringValueFromNSXMLNode:status byXPath:@"text/text()"]]];
         [backStatus setText:[self decodeHeart:[backStatus text]]];
-        
-        NSString *timestampStr = [[NTLNXMLHTTPEncoder encoder] decodeXML:[self stringValueFromNSXMLNode:status byXPath:@"dcterms:modified/text()"]];
-        [backStatus setTimestamp:[W3CDTF dateFromString:timestampStr]];
-        
-        NSString *iconUrl = [[@"http://wassr.jp/user/" stringByAppendingString:author] stringByAppendingString:@"/profile_img.png.64"];
+		[backStatus setTimestamp:[NSDate dateWithTimeIntervalSince1970:[epoch intValue]]];
+       
+        NSString *iconUrl = [[@"http://wassr.jp/user/" stringByAppendingString:user_login_id] stringByAppendingString:@"/profile_img.png.64"];
        
         [backStatus finishedToSetProperties];
         [_callback twitterStartTask];
@@ -322,7 +322,7 @@
     
     TwitterTimelineCallbackHandler *handler = [[TwitterTimelineCallbackHandler alloc] initWithCallback:_callback parent:self];
 
-	NSString *url = @"http://api.wassr.jp/statuses/friends_timeline.rss";// stringByAppendingString:url_suffix];
+	NSString *url = @"http://api.wassr.jp/statuses/friends_timeline.xml";
     [_connectionForFriendTimeline release];
     _connectionForFriendTimeline = [[NTLNAsyncUrlConnection alloc] initWithUrl:url
                                                                   username:username
