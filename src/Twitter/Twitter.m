@@ -1,7 +1,6 @@
 #import "Twitter.h"
 #import "NTLNConfiguration.h"
 #import "NTLNXMLHTTPEncoder.h"
-#import "W3CDTF.h"
 
 @implementation NTLNErrorInfo
 + (id) infoWithType:(enum NTLNErrorType)type originalMessage:(NSString*)message {
