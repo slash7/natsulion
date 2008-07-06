@@ -181,9 +181,14 @@
 		{
 			NSString *rt = @"@";
 			rt = [rt stringByAppendingString:reply_user_login_id];
-			rt = [rt stringByAppendingString:@" "];
-			rt = [rt stringByAppendingString:[backStatus text]];
-			[backStatus setText:rt];
+
+			NSRange r = [[backStatus text] rangeOfString:rt];
+			if (r.length == 0)
+			{
+				rt = [rt stringByAppendingString:@" "];
+				rt = [rt stringByAppendingString:[backStatus text]];
+				[backStatus setText:rt];
+			}
 		}
 		
 		[backStatus setTimestamp:[NSDate dateWithTimeIntervalSince1970:[epoch intValue]]];
