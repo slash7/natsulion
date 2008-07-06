@@ -165,23 +165,35 @@
     
     for (NSXMLNode *status in statuses) {
         NTLNMessage *backStatus = [[[NTLNMessage alloc] init] autorelease];
-		
 		NSString *epoch = [self stringValueFromNSXMLNode:status byXPath:@"epoch/text()"];
-		
 		NSString *user_login_id = [self stringValueFromNSXMLNode:status byXPath:@"user_login_id/text()"];
-        [backStatus setStatusId:epoch];
+		NSString *rid = [self stringValueFromNSXMLNode:status byXPath:@"rid/text()"];
+        NSString *iconUrl = [self stringValueFromNSXMLNode:status byXPath:@"user/profile_image_url/text()"];
+
+        [backStatus setStatusId:rid];
         [backStatus setName:user_login_id];
         [backStatus setScreenName:[[NTLNXMLHTTPEncoder encoder] decodeXML:[self stringValueFromNSXMLNode:status byXPath:@"user/screen_name/text()"]]];
         [backStatus setText:[[NTLNXMLHTTPEncoder encoder] decodeXML:[self stringValueFromNSXMLNode:status byXPath:@"text/text()"]]];
         [backStatus setText:[self decodeHeart:[backStatus text]]];
+		
+		NSString *reply_user_login_id = [self stringValueFromNSXMLNode:status byXPath:@"reply_user_login_id/text()"];
+		if (reply_user_login_id && [reply_user_login_id length] > 0)
+		{
+			NSString *rt = @"@";
+			rt = [rt stringByAppendingString:reply_user_login_id];
+			rt = [rt stringByAppendingString:@" "];
+			rt = [rt stringByAppendingString:[backStatus text]];
+			[backStatus setText:rt];
+		}
+		
 		[backStatus setTimestamp:[NSDate dateWithTimeIntervalSince1970:[epoch intValue]]];
-       
-        NSString *iconUrl = [[@"http://wassr.jp/user/" stringByAppendingString:user_login_id] stringByAppendingString:@"/profile_img.png.64"];
        
         [backStatus finishedToSetProperties];
         [_callback twitterStartTask];
         [_parent pushIconWaiter:backStatus forUrl:iconUrl];
-    }
+		
+//		NSLog(@"rid: %@ user_login_id: %@", rid, user_login_id);
+	}
 }
 
 - (void) connectionFailed:(NSError*)error {
@@ -328,7 +340,7 @@
                                                                   password:password
                                                                    usePost:post
                                                                   callback:handler];
-    if (!_connectionForFriendTimeline) {
+	if (!_connectionForFriendTimeline) {
         NSLog(@"failed to get connection.");
         return;
     }
@@ -411,23 +423,23 @@
 }
 
 - (void) createFavorite:(NSString*)statusId username:(NSString*)username password:(NSString*)password {
-/*    
+    
     if (_connectionForFavorite && ![_connectionForFavorite isFinished]) {
         NSLog(@"connection for favorite is running.");
         return;
     }
     
     NSMutableString *urlStr = [[[NSMutableString alloc] init] autorelease];
-    [urlStr appendString:@"http://api.wassr.jp/favourings/create/"];
+    [urlStr appendString:@"http://api.wassr.jp/favorites/create/"];
     [urlStr appendString:statusId];
-    [urlStr appendString:@".xml"];
+    [urlStr appendString:@".json"];
     
     TwitterFavoriteCallbackHandler *handler = [[TwitterFavoriteCallbackHandler alloc] initWithStatusId:statusId callback:_callback];
     [_connectionForFavorite release];
     _connectionForFavorite = [[NTLNAsyncUrlConnection alloc] initWithUrl:urlStr
                                                                 username:username
                                                                 password:password
-                                                                 usePost:FALSE
+                                                                 usePost:TRUE
                                                                 callback:handler];
     
 //    NSLog(@"sent data [%@]", urlStr);
@@ -438,7 +450,7 @@
         return;
     }
     
-    [_callback twitterStartTask];*/
+    [_callback twitterStartTask];
 }
 
 #pragma mark icon callback
