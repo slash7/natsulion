@@ -3,7 +3,6 @@
 #import "NTLNMainWindowController.h"
 #import "Twitter.h"
 
-#define NTLN_PREFERENCE_USERID @"userIdWasser"
 #define NTLN_PREFERENCE_USE_GROWL @"useGrowl"
 #define NTLN_PREFERENCE_REFRESH_INTERVAL @"refreshInterval"
 

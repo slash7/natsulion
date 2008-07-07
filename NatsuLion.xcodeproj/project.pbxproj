@@ -85,6 +85,7 @@
 		E9F1DB480D13EE910072CE81 /* TwitterStatusView.nib in Resources */ = {isa = PBXBuildFile; fileRef = E9F1DB470D13EE910072CE81 /* TwitterStatusView.nib */; };
 		E9F960930D25D03A007829C4 /* NTLNMessageInputTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F960920D25D03A007829C4 /* NTLNMessageInputTextField.m */; };
 		E9FE91670D81527C0012136E /* NTLNBufferedMessageNotifier.m in Sources */ = {isa = PBXBuildFile; fileRef = E9FE91660D81527C0012136E /* NTLNBufferedMessageNotifier.m */; };
+		F1A8CECA0E223D2E00B80074 /* Wassr.m in Sources */ = {isa = PBXBuildFile; fileRef = F1A8CEC90E223D2E00B80074 /* Wassr.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -239,6 +240,8 @@
 		E9F960920D25D03A007829C4 /* NTLNMessageInputTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NTLNMessageInputTextField.m; sourceTree = "<group>"; };
 		E9FE91650D81527C0012136E /* NTLNBufferedMessageNotifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTLNBufferedMessageNotifier.h; sourceTree = "<group>"; };
 		E9FE91660D81527C0012136E /* NTLNBufferedMessageNotifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NTLNBufferedMessageNotifier.m; sourceTree = "<group>"; };
+		F1A8CEC80E223D2E00B80074 /* Wassr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Wassr.h; sourceTree = "<group>"; };
+		F1A8CEC90E223D2E00B80074 /* Wassr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Wassr.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -403,6 +406,8 @@
 		E91B3DBA0D13F893007C9762 /* Twitter */ = {
 			isa = PBXGroup;
 			children = (
+				F1A8CEC80E223D2E00B80074 /* Wassr.h */,
+				F1A8CEC90E223D2E00B80074 /* Wassr.m */,
 				E9160BBC0D11D2EB00C9EEFF /* Twitter.h */,
 				E9160BBD0D11D2EB00C9EEFF /* Twitter.m */,
 				E9DC0FD00D3D226A00CC6D41 /* TwitterTestStub.h */,
@@ -674,6 +679,7 @@
 				E976152B0D9FDE10007893CC /* Crypto.m in Sources */,
 				E94CC0D10DD8C8B100D8711D /* NTLNKeywordFilterView.m in Sources */,
 				E99408070DEF43FD0009A365 /* NTLNSegmentedCell.m in Sources */,
+				F1A8CECA0E223D2E00B80074 /* Wassr.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

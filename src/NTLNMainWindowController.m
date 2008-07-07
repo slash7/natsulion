@@ -257,39 +257,42 @@
 }
 
 - (void) updateStatus {
-    NSString *password = [[NTLNAccount instance] password];
+    NSString *password = [[[NTLNAccountManager instance] twitterAccount] password];
     if (!password) {
         // TODO inform error to user
         NSLog(@"password not set. skip updateStatus");
         return;
     }
-    [_twitter friendTimelineWithUsername:[[NTLNAccount instance] username]
+	
+    [_twitter friendTimelineWithUsername:[[[NTLNAccountManager instance] twitterAccount] username]
                                 password:password
                                  usePost:[[NTLNConfiguration instance] usePost]];
 }
 
 - (void) updateReplies {
 //    NSLog(@"%s", __PRETTY_FUNCTION__);
-    NSString *password = [[NTLNAccount instance] password];
+    NSString *password = [[[NTLNAccountManager instance] twitterAccount] password];
     if (!password) {
         // TODO inform error to user
         NSLog(@"password not set. skip updateStatus");
         return;
     }
-    [_twitter repliesWithUsername:[[NTLNAccount instance] username]
+
+    
+	[_twitter repliesWithUsername:[[[NTLNAccountManager instance] twitterAccount] username]
                          password:password
                           usePost:[[NTLNConfiguration instance] usePost]];
 }
 
 - (void) updateSentMessages {
 //    NSLog(@"%s", __PRETTY_FUNCTION__);
-    NSString *password = [[NTLNAccount instance] password];
+    NSString *password = [[[NTLNAccountManager instance] twitterAccount] password];
     if (!password) {
         // TODO inform error to user
         NSLog(@"password not set. skip updateStatus");
         return;
     }
-    [_twitter sentMessagesWithUsername:[[NTLNAccount instance] username]
+    [_twitter sentMessagesWithUsername:[[[NTLNAccountManager instance] twitterAccount] username]
                               password:password
                                usePost:[[NTLNConfiguration instance] usePost]];
 }
@@ -299,7 +302,7 @@
         return;
     }
     
-    NSString *password = [[NTLNAccount instance] password];
+    NSString *password = [[[NTLNAccountManager instance] twitterAccount] password];
     if (!password) {
         // TODO inform error to user
         NSLog(@"password not set. skip updateStatus");
@@ -307,7 +310,7 @@
     }
     [messageTextField setEnabled:FALSE];
     [_twitter sendMessage:[messageTextField stringValue]
-                 username:[[NTLNAccount instance] username]
+                 username:[[[NTLNAccountManager instance] twitterAccount] username]
                  password:password];
 }
 
@@ -556,7 +559,7 @@
 }
 
 - (void) createFavoriteDesiredFor:(NSString*)statusId {
-    NSString *password = [[NTLNAccount instance] password];
+    NSString *password = [[[NTLNAccountManager instance] twitterAccount] password];
     if (!password) {
         // TODO inform error to user
         NSLog(@"password not set. skip create favorite");
@@ -564,7 +567,7 @@
     }
     _createFavoriteIsWorking = TRUE;
     [_twitter createFavorite:statusId
-                    username:[[NTLNAccount instance] username]
+                    username:[[[NTLNAccountManager instance] twitterAccount] username]
                     password:password];
 }
 

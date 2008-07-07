@@ -49,6 +49,12 @@ enum NTLNErrorType {
     id _parent;
 }
 - (id) initWithCallback:(id<TwitterTimelineCallback>)callback parent:(id)parent;
+- (NSString*) convertToLargeIconUrl:(NSString*)url;
+- (NSString*) decodeHeart:(NSString*)aString;
+- (NSString*) stringValueFromNSXMLNode:(NSXMLNode*)node byXPath:(NSString*)xpath;
+- (id) initWithCallback:(id<TwitterTimelineCallback>)callback parent:(id)parent;
+- (NSString*) appendCode:(int)code to:(NSString*)string;
+
 @end
 
 @interface TwitterPostCallbackHandler : NSObject<NTLNAsyncUrlConnectionCallback> {

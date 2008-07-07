@@ -27,7 +27,7 @@
 }
 
 - (BOOL) isReplyToMe {
-    if ([text hasPrefix:[@"@" stringByAppendingString:[[NTLNAccount instance] username]]]) {
+    if ([text hasPrefix:[@"@" stringByAppendingString:[[[NTLNAccountManager instance] twitterAccount] username]]]) {
         //        NSLog(@"reply");
         return TRUE;
     }
@@ -36,7 +36,7 @@
 }
 
 - (BOOL) isProbablyReplyToMe {
-    NSString *query = [@"@" stringByAppendingString:[[NTLNAccount instance] username]];
+    NSString *query = [@"@" stringByAppendingString:[[[NTLNAccountManager instance] twitterAccount] username]];
     NSRange range = [text rangeOfString:query];
     
     if (range.location != NSNotFound) {
@@ -48,7 +48,7 @@
 }
 
 - (BOOL) isMyUpdate {
-    return [screenName isEqualToString:[[NTLNAccount instance] username]];
+    return [screenName isEqualToString:[[[NTLNAccountManager instance] twitterAccount] username]];
 }
 
 - (void) finishedToSetProperties {

@@ -165,40 +165,22 @@
     
     for (NSXMLNode *status in statuses) {
         NTLNMessage *backStatus = [[[NTLNMessage alloc] init] autorelease];
-		NSString *epoch = [self stringValueFromNSXMLNode:status byXPath:@"epoch/text()"];
-		NSString *user_login_id = [self stringValueFromNSXMLNode:status byXPath:@"user_login_id/text()"];
-		NSString *rid = [self stringValueFromNSXMLNode:status byXPath:@"rid/text()"];
-        NSString *iconUrl = [self stringValueFromNSXMLNode:status byXPath:@"user/profile_image_url/text()"];
-
-        [backStatus setStatusId:rid];
-        [backStatus setName:user_login_id];
+        
+        [backStatus setStatusId:[self stringValueFromNSXMLNode:status byXPath:@"id/text()"]];
+        [backStatus setName:[[NTLNXMLHTTPEncoder encoder] decodeXML:[self stringValueFromNSXMLNode:status byXPath:@"user/name/text()"]]];
         [backStatus setScreenName:[[NTLNXMLHTTPEncoder encoder] decodeXML:[self stringValueFromNSXMLNode:status byXPath:@"user/screen_name/text()"]]];
         [backStatus setText:[[NTLNXMLHTTPEncoder encoder] decodeXML:[self stringValueFromNSXMLNode:status byXPath:@"text/text()"]]];
         [backStatus setText:[self decodeHeart:[backStatus text]]];
-		
-		NSString *reply_user_login_id = [self stringValueFromNSXMLNode:status byXPath:@"reply_user_login_id/text()"];
-		if (reply_user_login_id && [reply_user_login_id length] > 0)
-		{
-			NSString *rt = @"@";
-			rt = [rt stringByAppendingString:reply_user_login_id];
-
-			NSRange r = [[backStatus text] rangeOfString:rt];
-			if (r.length == 0)
-			{
-				rt = [rt stringByAppendingString:@" "];
-				rt = [rt stringByAppendingString:[backStatus text]];
-				[backStatus setText:rt];
-			}
-		}
-		
-		[backStatus setTimestamp:[NSDate dateWithTimeIntervalSince1970:[epoch intValue]]];
+        
+        NSString *timestampStr = [[NTLNXMLHTTPEncoder encoder] decodeXML:[self stringValueFromNSXMLNode:status byXPath:@"created_at/text()"]];
+        [backStatus setTimestamp:[NSDate dateWithNaturalLanguageString:timestampStr]];
+        
+        NSString *iconUrl = [self convertToLargeIconUrl:[self stringValueFromNSXMLNode:status byXPath:@"user/profile_image_url/text()"]];
        
         [backStatus finishedToSetProperties];
         [_callback twitterStartTask];
         [_parent pushIconWaiter:backStatus forUrl:iconUrl];
-		
-//		NSLog(@"rid: %@ user_login_id: %@", rid, user_login_id);
-	}
+    }
 }
 
 - (void) connectionFailed:(NSError*)error {
@@ -337,15 +319,20 @@
     }
     
     TwitterTimelineCallbackHandler *handler = [[TwitterTimelineCallbackHandler alloc] initWithCallback:_callback parent:self];
-
-	NSString *url = @"http://api.wassr.jp/statuses/friends_timeline.xml";
+    
+	NSString *url_suffix = [[NSDate date] descriptionWithCalendarFormat:@"%Y%m%d%02H%02M%02S"
+															   timeZone:[NSTimeZone localTimeZone]
+																 locale:[[NSUserDefaults standardUserDefaults]
+																		 dictionaryRepresentation]];
+	
+	NSString *url = [@"http://twitter.com/statuses/friends_timeline.xml?" stringByAppendingString:url_suffix];
     [_connectionForFriendTimeline release];
     _connectionForFriendTimeline = [[NTLNAsyncUrlConnection alloc] initWithUrl:url
                                                                   username:username
                                                                   password:password
                                                                    usePost:post
                                                                   callback:handler];
-	if (!_connectionForFriendTimeline) {
+    if (!_connectionForFriendTimeline) {
         NSLog(@"failed to get connection.");
         return;
     }
@@ -354,7 +341,7 @@
 }
 
 - (void) repliesWithUsername:(NSString*)username password:(NSString*)password usePost:(BOOL)post {
-/*
+
     if (_connectionForReplies && ![_connectionForReplies isFinished]) {
         NSLog(@"connection for replies is running.");
         return;
@@ -363,7 +350,7 @@
     TwitterTimelineCallbackHandler *handler = [[TwitterTimelineCallbackHandler alloc] initWithCallback:_callback parent:self];
     
     [_connectionForReplies release];
-    _connectionForReplies = [[NTLNAsyncUrlConnection alloc] initWithUrl:@"http://api.wassr.jp/statuses/replies.xml" 
+    _connectionForReplies = [[NTLNAsyncUrlConnection alloc] initWithUrl:@"http://twitter.com/statuses/replies.xml" 
                                                                       username:username
                                                                       password:password
                                                                        usePost:post
@@ -373,11 +360,11 @@
         return;
     }
     
-    [_callback twitterStartTask];*/
+    [_callback twitterStartTask];
 }
 
 - (void) sentMessagesWithUsername:(NSString*)username password:(NSString*)password usePost:(BOOL)post {
-/*    
+    
     if (_connectionForSentMessages && ![_connectionForSentMessages isFinished]) {
         NSLog(@"connection for sent messages is running.");
         return;
@@ -386,7 +373,7 @@
     TwitterTimelineCallbackHandler *handler = [[TwitterTimelineCallbackHandler alloc] initWithCallback:_callback parent:self];
     
     [_connectionForSentMessages release];
-    _connectionForSentMessages = [[NTLNAsyncUrlConnection alloc] initWithUrl:@"http://api.wassr.jp/statuses/user_timeline.xml" 
+    _connectionForSentMessages = [[NTLNAsyncUrlConnection alloc] initWithUrl:@"http://twitter.com/statuses/user_timeline.xml" 
                                                                username:username
                                                                password:password
                                                                 usePost:post
@@ -396,7 +383,7 @@
         return;
     }
     
-    [_callback twitterStartTask];*/
+    [_callback twitterStartTask];
 }
 
 - (void) sendMessage:(NSString*)message username:(NSString*)username password:(NSString*)password {
@@ -411,7 +398,7 @@
     
     TwitterPostCallbackHandler *handler = [[TwitterPostCallbackHandler alloc] initWithPostCallback:_callback];
     [_connectionForPost release];
-    _connectionForPost = [[NTLNAsyncUrlConnection alloc] initPostConnectionWithUrl:@"http://api.wassr.jp/statuses/update.json"
+    _connectionForPost = [[NTLNAsyncUrlConnection alloc] initPostConnectionWithUrl:@"http://twitter.com/statuses/update.xml"
                                                                         bodyString:requestStr 
                                                                           username:username
                                                                           password:password
@@ -435,16 +422,16 @@
     }
     
     NSMutableString *urlStr = [[[NSMutableString alloc] init] autorelease];
-    [urlStr appendString:@"http://api.wassr.jp/favorites/create/"];
+    [urlStr appendString:@"http://twitter.com/favourings/create/"];
     [urlStr appendString:statusId];
-    [urlStr appendString:@".json"];
+    [urlStr appendString:@".xml"];
     
     TwitterFavoriteCallbackHandler *handler = [[TwitterFavoriteCallbackHandler alloc] initWithStatusId:statusId callback:_callback];
     [_connectionForFavorite release];
     _connectionForFavorite = [[NTLNAsyncUrlConnection alloc] initWithUrl:urlStr
                                                                 username:username
                                                                 password:password
-                                                                 usePost:TRUE
+                                                                 usePost:FALSE
                                                                 callback:handler];
     
 //    NSLog(@"sent data [%@]", urlStr);
@@ -508,7 +495,7 @@
     _callback = callback;
     [_callback retain];
     
-    _connection = [[NTLNAsyncUrlConnection alloc] initWithUrl:@"http://api.wassr.jp/statuses/friends_timeline.rss" 
+    _connection = [[NTLNAsyncUrlConnection alloc] initWithUrl:@"http://twitter.com/account/verify_credentials.xml" 
                                                  username:username
                                                  password:password
                                                   usePost:FALSE

@@ -75,7 +75,7 @@
 - (void) setRefreshInterval:(int)interval {
     _refreshInterval = interval;
     
-    if ([[NTLNAccount instance] username]) {
+    if ([[[NTLNAccountManager instance] twitterAccount] username]) {
         [self startTimer];
     }
 }
@@ -187,7 +187,7 @@
     
     [welcomeWindowController setWelcomeWindowControllerCallback:self];
     
-    NSString *username = [[NTLNAccount instance] username];
+    NSString *username = [[[NTLNAccountManager instance] twitterAccount] username];
     if (!username) {
         // first time
         [mainWindowController close];
@@ -195,7 +195,7 @@
         [welcomeWindowController showWindow:nil];
     } else {
         [mainWindowController showWindow:nil];
-        if ([[NTLNAccount instance] password]) {
+        if ([[[NTLNAccountManager instance] twitterAccount] password]) {
             [_refreshTimer fire];
         }
         [mainWindowController updateReplies];

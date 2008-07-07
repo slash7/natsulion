@@ -1,20 +1,30 @@
 #import <Cocoa/Cocoa.h>
 
-@interface NTLNAccount : NSObject {
-    NSString *_username;
-    NSString *_password;
+@class NTLNAccount;
+
+@interface NTLNAccountManager : NSObject
+{
+	NTLNAccount *twitterAccount;
+	NTLNAccount *wassrAccount;
 }
 
 + (id) instance;
-+ (id) newInstance;
-+ (id) newInstanceWithUsername:(NSString*)username;
 
-- (id) initWithUsername:(NSString*)username;
+@property (readonly) NTLNAccount *twitterAccount, *wassrAccount;
 
+@end
+
+@interface NTLNAccount : NSObject {
+    NSString *_username;
+    NSString *_password;
+	NSString *prefName;
+}
+
+- (id) initWithPrefName:(NSString*)prefname;
 - (NSString*) username;
 - (NSString*) password;
 - (BOOL) addOrUpdateKeyChainWithPassword:(NSString*)password;
-
+- (BOOL) isValid;
 @end
 
 

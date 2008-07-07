@@ -2,58 +2,82 @@
 #import "NTLNKeyChain.h"
 #import "NTLNPreferencesWindowController.h"
 
-static NTLNAccount *_instance;
+static NTLNAccountManager *_instance;
+
+@implementation NTLNAccountManager
+
+@synthesize twitterAccount, wassrAccount;
+
++ (id) instance {
+	@synchronized(self) {
+        if(!_instance) {
+            _instance = [[self alloc] init];
+        }
+    }
+	return _instance;
+}
+
++(id) allocWithZone:(NSZone*)zone
+{
+    @synchronized(self) {
+        if(!_instance) {
+            _instance = [super allocWithZone:zone];
+        }
+    }
+    return _instance; 
+}
+
+-(id)init
+{
+	twitterAccount = [[NTLNAccount alloc] initWithPrefName:@"userId"];
+	wassrAccount = [[NTLNAccount alloc] initWithPrefName:@"userIdWasser"];
+	return [super init];
+}
+
+-(void) dealloc {
+	[twitterAccount release];
+	[wassrAccount release];
+	[super dealloc];
+}
+
+-(id)copyWithZone:(NSZone*)zone {
+    return self;
+}
+
+-(id)retain {
+    return self;
+}
+
+-(unsigned)retainCount {
+    return UINT_MAX; // 
+}
+
+-(void)release {
+}
+
+-(id)autorelease {
+    return self;
+}
+
+@end
+
 
 @implementation NTLNAccount
 
-+ (id) instance {
-    if (!_instance) {
-        return [NTLNAccount newInstance];
-    }
-    return _instance;
-}
-
-+ (id) newInstance {
-    if (_instance) {
-        [_instance release];
-        _instance = nil;
-    }
-    
-    _instance = [[NTLNAccount alloc] init];
-    return _instance;
-}
-
-+ (id) newInstanceWithUsername:(NSString*)username {
-    if (_instance) {
-        [_instance release];
-        _instance = nil;
-    }
-    
-    _instance = [[NTLNAccount alloc] initWithUsername:username];
-
-    return _instance;
-}
-
-- (id) initWithUsername:(NSString*)username {
-    _username = username;
-    [_username retain];
-    
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setObject:_username forKey:NTLN_PREFERENCE_USERID];
-    [defaults synchronize];
-    
+- (id) initWithPrefName:(NSString*)prefn {
+	prefName = prefn;
+	[prefName retain];
+	_username = [[NSUserDefaults standardUserDefaults] objectForKey:prefName];
     return self;
 }
 
 - (void) dealloc {
     [_username release];
+	[prefName release];
     [super dealloc];
 }
 
 - (NSString*) username {
-    if (!_username) {
-        _username = [[NSUserDefaults standardUserDefaults] objectForKey:NTLN_PREFERENCE_USERID];
-    }
     return _username;
 }
 
@@ -64,6 +88,11 @@ static NTLNAccount *_instance;
 - (BOOL) addOrUpdateKeyChainWithPassword:(NSString*)password {
     return [[NTLNKeyChain keychain] addOrUpdateWithUsername:[self username] password:password];
 }
+
+- (BOOL) isValid {
+	return ([self password] != nil) ? TRUE : FALSE;
+}
+
 
 
 @end
