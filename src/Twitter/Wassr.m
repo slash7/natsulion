@@ -94,7 +94,7 @@
         NSString *iconUrl = [self stringValueFromNSXMLNode:status byXPath:@"user/profile_image_url/text()"];
 
         [backStatus setStatusId:rid];
-        [backStatus setName:user_login_id];
+        [backStatus setName:[@"[Wassr] " stringByAppendingString:user_login_id]];
         [backStatus setScreenName:[[NTLNXMLHTTPEncoder encoder] decodeXML:[self stringValueFromNSXMLNode:status byXPath:@"user/screen_name/text()"]]];
         [backStatus setText:[[NTLNXMLHTTPEncoder encoder] decodeXML:[self stringValueFromNSXMLNode:status byXPath:@"text/text()"]]];
         [backStatus setText:[self decodeHeart:[backStatus text]]];
@@ -138,7 +138,7 @@
         return;
     }
     
-    TwitterTimelineCallbackHandler *handler = [[TwitterTimelineCallbackHandler alloc] initWithCallback:_callback parent:self];
+    WassrTimelineCallbackHandler *handler = [[WassrTimelineCallbackHandler alloc] initWithCallback:_callback parent:self];
 
 	NSString *url = @"http://api.wassr.jp/statuses/friends_timeline.xml";
     [_connectionForFriendTimeline release];

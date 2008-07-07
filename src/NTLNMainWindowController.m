@@ -35,6 +35,8 @@
 #pragma mark Initialization
 - (id) init {
     _twitter = [[TwitterImpl alloc] initWithCallback:self];
+	_wassr = [[WassrImpl alloc] initWithCallback:self];
+	
     //    _twitter = [[TwitterTestStub alloc] init];
     
     [NTLNConfiguration setTimelineSortOrderChangeObserver:self];
@@ -53,6 +55,7 @@
 
 - (void) dealloc {
     [_twitter release];
+	[_wassr release];
     [_toolbarItems release];
     [_messageNotifier release];
     [_messageViewToolbarMenuItem release];
@@ -267,6 +270,19 @@
     [_twitter friendTimelineWithUsername:[[[NTLNAccountManager instance] twitterAccount] username]
                                 password:password
                                  usePost:[[NTLNConfiguration instance] usePost]];
+
+
+    password = [[[NTLNAccountManager instance] wassrAccount] password];
+    if (!password) {
+        // TODO inform error to user
+        NSLog(@"password not set. skip updateStatus");
+        return;
+    }
+
+    [_wassr friendTimelineWithUsername:[[[NTLNAccountManager instance] wassrAccount] username]
+                                password:password
+                                 usePost:[[NTLNConfiguration instance] usePost]];
+	
 }
 
 - (void) updateReplies {

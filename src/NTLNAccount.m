@@ -4,7 +4,7 @@
 #define TWITTER_USER_ID_PREF_NAME		@"userId"
 #define TWITTER_KEYCHAIN_SERVER_NAME	@"twitter.com"
 #define WASSR_USER_ID_PREF_NAME			@"userIdWasser"
-#define WASSR_KEYCHAIN_SERVER_NAME		@"wassr.jp"
+#define WASSR_KEYCHAIN_SERVER_NAME		@"wasser.jp"
 
 static NTLNAccountManager *_instance;
 
@@ -82,6 +82,7 @@ static NTLNAccountManager *_instance;
 																		   path:nil
 																		   port:80 
 																	   protocol:kSecProtocolTypeHTTP];
+	[keychainItem retain];
 	return self;
 }
 

@@ -1,5 +1,6 @@
 #import <Cocoa/Cocoa.h>
 #import "Twitter.h"
+#import "Wassr.h"
 #import "NTLNMessageTableViewController.h"
 #import "NTLNGrowlNotifier.h"
 #import "NTLNMessageInputTextField.h"
@@ -44,6 +45,7 @@
     IBOutlet NTLNKeywordFilterView *keywordFilterView;
     
     Twitter *_twitter;
+	Twitter *_wassr;
 
     BOOL _createFavoriteIsWorking;
     NTLNBufferedMessageNotifier *_messageNotifier;
