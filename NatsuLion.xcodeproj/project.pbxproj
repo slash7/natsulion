@@ -35,7 +35,6 @@
 		E9614D130D27BEA4009743CE /* NTLNURLUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = E9614CE00D27BC75009743CE /* NTLNURLUtils.m */; };
 		E9614D140D27BEBA009743CE /* NTLNURLUtilsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = E9614CDC0D27BADC009743CE /* NTLNURLUtilsTest.m */; };
 		E96C36210D2A6EA300CED33F /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E96C36200D2A6EA300CED33F /* Security.framework */; };
-		E96C362C0D2A71BA00CED33F /* NTLNKeyChain.m in Sources */ = {isa = PBXBuildFile; fileRef = E96C362B0D2A71BA00CED33F /* NTLNKeyChain.m */; };
 		E96C36930D2A83E300CED33F /* NTLNAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = E96C36920D2A83E300CED33F /* NTLNAccount.m */; };
 		E96C36AD0D2A8C3700CED33F /* NTLNWelcomeWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = E96C36AC0D2A8C3700CED33F /* NTLNWelcomeWindowController.m */; };
 		E976152B0D9FDE10007893CC /* Crypto.m in Sources */ = {isa = PBXBuildFile; fileRef = E976152A0D9FDE10007893CC /* Crypto.m */; };
@@ -86,6 +85,8 @@
 		E9F960930D25D03A007829C4 /* NTLNMessageInputTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F960920D25D03A007829C4 /* NTLNMessageInputTextField.m */; };
 		E9FE91670D81527C0012136E /* NTLNBufferedMessageNotifier.m in Sources */ = {isa = PBXBuildFile; fileRef = E9FE91660D81527C0012136E /* NTLNBufferedMessageNotifier.m */; };
 		F1A8CECA0E223D2E00B80074 /* Wassr.m in Sources */ = {isa = PBXBuildFile; fileRef = F1A8CEC90E223D2E00B80074 /* Wassr.m */; };
+		F1A8CFED0E22944C00B80074 /* EMKeychainItem.m in Sources */ = {isa = PBXBuildFile; fileRef = F1A8CFE90E22944C00B80074 /* EMKeychainItem.m */; };
+		F1A8CFEE0E22944C00B80074 /* EMKeychainProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = F1A8CFEB0E22944C00B80074 /* EMKeychainProxy.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -166,8 +167,6 @@
 		E9614CE80D27BCBB009743CE /* Test-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Test-Info.plist"; sourceTree = "<group>"; };
 		E96801F30D2748DB0048A163 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		E96C36200D2A6EA300CED33F /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
-		E96C362A0D2A71BA00CED33F /* NTLNKeyChain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTLNKeyChain.h; sourceTree = "<group>"; };
-		E96C362B0D2A71BA00CED33F /* NTLNKeyChain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NTLNKeyChain.m; sourceTree = "<group>"; };
 		E96C36910D2A83E300CED33F /* NTLNAccount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTLNAccount.h; sourceTree = "<group>"; };
 		E96C36920D2A83E300CED33F /* NTLNAccount.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NTLNAccount.m; sourceTree = "<group>"; };
 		E96C36A80D2A897800CED33F /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/Welcome.nib; sourceTree = "<group>"; };
@@ -242,6 +241,10 @@
 		E9FE91660D81527C0012136E /* NTLNBufferedMessageNotifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NTLNBufferedMessageNotifier.m; sourceTree = "<group>"; };
 		F1A8CEC80E223D2E00B80074 /* Wassr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Wassr.h; sourceTree = "<group>"; };
 		F1A8CEC90E223D2E00B80074 /* Wassr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Wassr.m; sourceTree = "<group>"; };
+		F1A8CFE80E22944C00B80074 /* EMKeychainItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMKeychainItem.h; sourceTree = "<group>"; };
+		F1A8CFE90E22944C00B80074 /* EMKeychainItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EMKeychainItem.m; sourceTree = "<group>"; };
+		F1A8CFEA0E22944C00B80074 /* EMKeychainProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMKeychainProxy.h; sourceTree = "<group>"; };
+		F1A8CFEB0E22944C00B80074 /* EMKeychainProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EMKeychainProxy.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -269,6 +272,7 @@
 		080E96DDFE201D6D7F000001 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				F1A8CFE70E22944C00B80074 /* EMKeychain */,
 				E920C36B0D6A1ACC00A813EB /* CT */,
 				E9614CDE0D27BC65009743CE /* util */,
 				E991C66D0D2AE62300F410B6 /* view */,
@@ -305,8 +309,6 @@
 				E916EEDA0D95381A00EA04C7 /* NTLNUser.m */,
 				E9F960910D25D03A007829C4 /* NTLNMessageInputTextField.h */,
 				E9F960920D25D03A007829C4 /* NTLNMessageInputTextField.m */,
-				E96C362A0D2A71BA00CED33F /* NTLNKeyChain.h */,
-				E96C362B0D2A71BA00CED33F /* NTLNKeyChain.m */,
 				E96C36910D2A83E300CED33F /* NTLNAccount.h */,
 				E96C36920D2A83E300CED33F /* NTLNAccount.m */,
 				E90F0B3E0D2E8E190067A9CA /* NTLNConfiguration.h */,
@@ -514,6 +516,17 @@
 			path = badges;
 			sourceTree = "<group>";
 		};
+		F1A8CFE70E22944C00B80074 /* EMKeychain */ = {
+			isa = PBXGroup;
+			children = (
+				F1A8CFE80E22944C00B80074 /* EMKeychainItem.h */,
+				F1A8CFE90E22944C00B80074 /* EMKeychainItem.m */,
+				F1A8CFEA0E22944C00B80074 /* EMKeychainProxy.h */,
+				F1A8CFEB0E22944C00B80074 /* EMKeychainProxy.m */,
+			);
+			path = EMKeychain;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -657,7 +670,6 @@
 				E9E5BF9F0D28988800F34B9B /* NTLNXMLHTTPEncoder.m in Sources */,
 				E9E5C0930D28BCBB00F34B9B /* TwitterUtils.m in Sources */,
 				E9A411290D29904F003BFA9F /* NTLNAppController.m in Sources */,
-				E96C362C0D2A71BA00CED33F /* NTLNKeyChain.m in Sources */,
 				E96C36930D2A83E300CED33F /* NTLNAccount.m in Sources */,
 				E96C36AD0D2A8C3700CED33F /* NTLNWelcomeWindowController.m in Sources */,
 				E991C6650D2AC7FC00F410B6 /* NTLNErrorMessageViewController.m in Sources */,
@@ -680,6 +692,8 @@
 				E94CC0D10DD8C8B100D8711D /* NTLNKeywordFilterView.m in Sources */,
 				E99408070DEF43FD0009A365 /* NTLNSegmentedCell.m in Sources */,
 				F1A8CECA0E223D2E00B80074 /* Wassr.m in Sources */,
+				F1A8CFED0E22944C00B80074 /* EMKeychainItem.m in Sources */,
+				F1A8CFEE0E22944C00B80074 /* EMKeychainProxy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

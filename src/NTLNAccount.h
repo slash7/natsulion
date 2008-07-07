@@ -1,4 +1,5 @@
 #import <Cocoa/Cocoa.h>
+#import "EMKeychainProxy.h"
 
 @class NTLNAccount;
 
@@ -18,9 +19,10 @@
     NSString *_username;
     NSString *_password;
 	NSString *prefName;
+	EMInternetKeychainItem *keychainItem;
 }
 
-- (id) initWithPrefName:(NSString*)prefname;
+- (id) initWithPrefName:(NSString*)prefname keychainServerName:(NSString *)serverName;
 - (NSString*) username;
 - (NSString*) password;
 - (BOOL) addOrUpdateKeyChainWithPassword:(NSString*)password;

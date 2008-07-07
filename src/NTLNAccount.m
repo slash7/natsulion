@@ -1,6 +1,10 @@
 #import "NTLNAccount.h"
-#import "NTLNKeyChain.h"
 #import "NTLNPreferencesWindowController.h"
+
+#define TWITTER_USER_ID_PREF_NAME		@"userId"
+#define TWITTER_KEYCHAIN_SERVER_NAME	@"twitter.com"
+#define WASSR_USER_ID_PREF_NAME			@"userIdWasser"
+#define WASSR_KEYCHAIN_SERVER_NAME		@"wassr.jp"
 
 static NTLNAccountManager *_instance;
 
@@ -29,8 +33,11 @@ static NTLNAccountManager *_instance;
 
 -(id)init
 {
-	twitterAccount = [[NTLNAccount alloc] initWithPrefName:@"userId"];
-	wassrAccount = [[NTLNAccount alloc] initWithPrefName:@"userIdWasser"];
+	twitterAccount = [[NTLNAccount alloc] initWithPrefName:TWITTER_USER_ID_PREF_NAME 
+										keychainServerName:TWITTER_KEYCHAIN_SERVER_NAME];
+	
+	wassrAccount = [[NTLNAccount alloc] initWithPrefName:WASSR_USER_ID_PREF_NAME 
+									  keychainServerName:WASSR_KEYCHAIN_SERVER_NAME];
 	return [super init];
 }
 
@@ -64,14 +71,22 @@ static NTLNAccountManager *_instance;
 
 @implementation NTLNAccount
 
-- (id) initWithPrefName:(NSString*)prefn {
+- (id) initWithPrefName:(NSString*)prefn keychainServerName:(NSString *)serverName {
 	prefName = prefn;
 	[prefName retain];
+
 	_username = [[NSUserDefaults standardUserDefaults] objectForKey:prefName];
-    return self;
+	
+	keychainItem = [[EMKeychainProxy sharedProxy] internetKeychainItemForServer:serverName 
+																   withUsername:_username 
+																		   path:nil
+																		   port:80 
+																	   protocol:kSecProtocolTypeHTTP];
+	return self;
 }
 
 - (void) dealloc {
+	[keychainItem release];
     [_username release];
 	[prefName release];
     [super dealloc];
@@ -82,17 +97,17 @@ static NTLNAccountManager *_instance;
 }
 
 - (NSString*) password {
-    return [[NTLNKeyChain keychain] getPasswordForUsername:[self username]];
+    return [keychainItem password];
 }
 
 - (BOOL) addOrUpdateKeyChainWithPassword:(NSString*)password {
-    return [[NTLNKeyChain keychain] addOrUpdateWithUsername:[self username] password:password];
+	[keychainItem username];
+	[keychainItem password];
+	return TRUE;
 }
 
 - (BOOL) isValid {
 	return ([self password] != nil) ? TRUE : FALSE;
 }
-
-
 
 @end
